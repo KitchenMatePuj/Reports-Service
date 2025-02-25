@@ -6,3 +6,4 @@ pytest
 pymysql
 httpx
 starlette
+pluggy
