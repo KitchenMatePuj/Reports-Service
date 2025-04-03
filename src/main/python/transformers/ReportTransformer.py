@@ -7,7 +7,6 @@ class ReportResponse(BaseModel):
     report_id: int
     reporter_user_id: str
     resource_type: str
-    resource_id: str
     description: Optional[str] = None
     status: str
     created_at: datetime
@@ -20,7 +19,6 @@ class ReportTransformer:
             report_id=report.report_id,
             reporter_user_id=report.reporter_user_id,
             resource_type=report.resource_type,
-            resource_id=report.resource_id,
             description=report.description,
             status=report.status,
             created_at=report.created_at,
