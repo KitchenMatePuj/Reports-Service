@@ -16,9 +16,9 @@ from src.main.python.transformers.ReportTransformer import (
     ReportResponse
 )
 
-def create_new_report(db: Session, report_data: dict) -> ReportResponse:
+def create_new_report(db: Session, report_data: ReportResponse) -> ReportResponse:
     try:
-        report_entity = Report(**report_data)
+        report_entity = Report(**report_data.dict())
         created_report = create_report(db, report_entity)
         return ReportTransformer.to_response_model(created_report)
 
