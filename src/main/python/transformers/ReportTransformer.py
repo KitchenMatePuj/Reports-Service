@@ -3,6 +3,17 @@ from typing import Optional
 from datetime import datetime
 from src.main.python.models.Report import Report
 
+class ReportCreate(BaseModel):
+    reporter_user_id: str
+    resource_type: str
+    description: Optional[str] = None
+
+class ReportUpdate(BaseModel):
+    reporter_user_id: Optional[str] = None
+    resource_type: Optional[str] = None
+    description: Optional[str] = None
+    status: Optional[str] = None
+
 class ReportResponse(BaseModel):
     report_id: int
     reporter_user_id: str

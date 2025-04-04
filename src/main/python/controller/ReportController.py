@@ -10,12 +10,12 @@ from src.main.python.service.ReportService import (
     remove_report,
     list_reports
 )
-from src.main.python.transformers.ReportTransformer import ReportResponse
+from src.main.python.transformers.ReportTransformer import ReportResponse, ReportCreate, ReportUpdate
 
 router = APIRouter(prefix="/reports", tags=["Reports"])
 
 @router.post("/", response_model=ReportResponse)
-def create_report_endpoint(report_data: dict, db: Session = Depends(get_db)):
+def create_report_endpoint(report_data: ReportCreate, db: Session = Depends(get_db)):
     return create_new_report(db, report_data)
 
 @router.get("/", response_model=List[ReportResponse])
@@ -27,8 +27,8 @@ def get_report_endpoint(report_id: int, db: Session = Depends(get_db)):
     return get_report(db, report_id)
 
 @router.put("/{report_id}", response_model=ReportResponse)
-def update_report_endpoint(report_id: int, report_data: dict, db: Session = Depends(get_db)):
-    return modify_report(db, report_id, report_data)
+def update_report_endpoint(report_id: int, report_data: ReportUpdate, db: Session = Depends(get_db)):
+    return modify_report(db, report_id, report_data.dict(exclude_unset=True))
 
 @router.delete("/{report_id}", status_code=204)
 def delete_report_endpoint(report_id: int, db: Session = Depends(get_db)):
