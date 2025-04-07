@@ -103,8 +103,8 @@ def remove_report(db: Session, report_id: int) -> dict:
 def search_reports(db: Session, filters: ReportSearch) -> List[ReportResponse]:
     query = db.query(Report)
 
-    if filters.user_type:
-        query = query.filter(Report.reporter_user_id == filters.user_type)
+    if filters.resource_type:
+        query = query.filter(Report.resource_type == filters.resource_type)
     if filters.status:
         query = query.filter(Report.status == filters.status)
     if filters.date:

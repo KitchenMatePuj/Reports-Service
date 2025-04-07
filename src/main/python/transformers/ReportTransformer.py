@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional
 from datetime import datetime
 from src.main.python.models.Report import Report
@@ -24,7 +24,7 @@ class ReportResponse(BaseModel):
     updated_at: Optional[datetime] = None
 
 class ReportSearch(BaseModel):
-    user_type: Optional[str] = None
+    resource_type: Optional[str] = None
     status: Optional[str] = None
     date: Optional[str] = None
 

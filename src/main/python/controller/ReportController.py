@@ -23,6 +23,13 @@ def create_report_endpoint(report_data: ReportCreate, db: Session = Depends(get_
 def list_all_reports_endpoint(db: Session = Depends(get_db)):
     return list_reports(db)
 
+@router.get("/search", response_model=List[ReportResponse])
+def search_reports_endpoint(
+    filters: ReportSearch = Depends(),
+    db: Session = Depends(get_db)
+):
+    return search_reports(db, filters)
+
 @router.get("/{report_id}", response_model=ReportResponse)
 def get_report_endpoint(report_id: int, db: Session = Depends(get_db)):
     return get_report(db, report_id)
@@ -31,14 +38,11 @@ def get_report_endpoint(report_id: int, db: Session = Depends(get_db)):
 def update_report_endpoint(report_id: int, report_data: ReportUpdate, db: Session = Depends(get_db)):
     return modify_report(db, report_id, report_data.dict(exclude_unset=True))
 
+
+
 @router.delete("/{report_id}", status_code=204)
 def delete_report_endpoint(report_id: int, db: Session = Depends(get_db)):
     remove_report(db, report_id)
     return
 
-@router.get("/search", response_model=List[ReportResponse])
-def search_reports_endpoint(
-    filters: ReportSearch = Depends(),
-    db: Session = Depends(get_db)
-):
-    return search_reports(db, filters.user_type, filters.status, filters.date)
+
