@@ -13,12 +13,13 @@ from src.main.python.repository.ReportRepository import (
 )
 from src.main.python.transformers.ReportTransformer import (
     ReportTransformer,
-    ReportResponse
+    ReportResponse,
+    ReportCreate
 )
 
-def create_new_report(db: Session, report_data: ReportResponse) -> ReportResponse:
+def create_new_report(db: Session, report_data: ReportCreate) -> ReportResponse:
     try:
-        report_entity = Report(**report_data.dict())
+        report_entity = Report(**report_data.dict())  
         created_report = create_report(db, report_entity)
         return ReportTransformer.to_response_model(created_report)
 
