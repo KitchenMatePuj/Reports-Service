@@ -23,6 +23,11 @@ class ReportResponse(BaseModel):
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
 
+class ReportSearch(BaseModel):
+    user_type: Optional[str] = None
+    status: Optional[str] = None
+    date: Optional[str] = None
+
 class ReportTransformer:
     @staticmethod
     def to_response_model(report: Report) -> ReportResponse:

@@ -12,6 +12,7 @@ from src.main.python.repository.ReportRepository import (
     delete_report
 )
 from src.main.python.transformers.ReportTransformer import (
+    ReportSearch,
     ReportTransformer,
     ReportResponse,
     ReportCreate
@@ -98,3 +99,16 @@ def remove_report(db: Session, report_id: int) -> dict:
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail={"error": "Error deleting report", "details": str(e)}
         )
+
+def search_reports(db: Session, filters: ReportSearch) -> List[ReportResponse]:
+    query = db.query(Report)
+
+    if filters.user_type:
+        query = query.filter(Report.reporter_user_id == filters.user_type)
+    if filters.status:
+        query = query.filter(Report.status == filters.status)
+    if filters.date:
+        query = query.filter(Report.created_at >= filters.date)
+
+    results = query.all()
+    return [ReportTransformer.to_response_model(r) for r in results]

@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from typing import List
+from typing import List, Optional
 from sqlalchemy.orm import Session
 
 from src.main.python.config.DatabasesConfig import get_db
@@ -8,9 +8,10 @@ from src.main.python.service.ReportService import (
     get_report,
     modify_report,
     remove_report,
-    list_reports
+    list_reports,
+    search_reports
 )
-from src.main.python.transformers.ReportTransformer import ReportResponse, ReportCreate, ReportUpdate
+from src.main.python.transformers.ReportTransformer import ReportResponse, ReportCreate, ReportSearch, ReportUpdate
 
 router = APIRouter(prefix="/reports", tags=["Reports"])
 
@@ -34,3 +35,10 @@ def update_report_endpoint(report_id: int, report_data: ReportUpdate, db: Sessio
 def delete_report_endpoint(report_id: int, db: Session = Depends(get_db)):
     remove_report(db, report_id)
     return
+
+@router.get("/search", response_model=List[ReportResponse])
+def search_reports_endpoint(
+    filters: ReportSearch = Depends(),
+    db: Session = Depends(get_db)
+):
+    return search_reports(db, filters.user_type, filters.status, filters.date)
