@@ -16,12 +16,12 @@ class ReportUpdate(BaseModel):
 
 class ReportResponse(BaseModel):
     report_id: int
-    reporter_user_id: str
-    resource_type: str
+    reporter_user_id: Optional[str] = None
+    resource_type: Optional[str] = None
     description: Optional[str] = None
-    status: str
-    created_at: datetime
-    updated_at: datetime
+    status: Optional[str] = None
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
 
 class ReportTransformer:
     @staticmethod
