@@ -7,6 +7,7 @@ class ReportCreate(BaseModel):
     reporter_user_id: str
     resource_type: str
     description: Optional[str] = None
+    status: Optional[str] = "pending"
 
 class ReportUpdate(BaseModel):
     reporter_user_id: Optional[str] = None
